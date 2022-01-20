@@ -1,10 +1,12 @@
 import { serialize } from 'cookie';
 import { checkPassword, createSecureToken } from 'lib/crypto';
 import { getAccountByUsername } from 'lib/queries';
+import { useCors } from 'lib/middleware';
 import { AUTH_COOKIE_NAME } from 'lib/constants';
 import { ok, unauthorized, badRequest } from 'lib/response';
 
 export default async (req, res) => {
+  await useCors(req, res);
   const { username, password } = req.body;
 
   if (!username || !password) {

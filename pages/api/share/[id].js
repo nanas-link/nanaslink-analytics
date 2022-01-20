@@ -1,8 +1,10 @@
 import { getWebsiteByShareId } from 'lib/queries';
+import { useCors } from 'lib/middleware';
 import { ok, notFound, methodNotAllowed } from 'lib/response';
 import { createToken } from 'lib/crypto';
 
 export default async (req, res) => {
+  await useCors(req, res);
   const { id } = req.query;
 
   if (req.method === 'GET') {

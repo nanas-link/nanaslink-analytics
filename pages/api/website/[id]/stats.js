@@ -1,8 +1,10 @@
 import { getWebsiteStats } from 'lib/queries';
+import { useCors } from 'lib/middleware';
 import { methodNotAllowed, ok, unauthorized } from 'lib/response';
 import { allowQuery } from 'lib/auth';
 
 export default async (req, res) => {
+  await useCors(req, res);
   if (req.method === 'GET') {
     if (!(await allowQuery(req))) {
       return unauthorized(res);
