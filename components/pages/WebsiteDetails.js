@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
 import WebsiteChart from 'components/metrics/WebsiteChart';
-import WorldMap from 'components/common/WorldMap';
+// import WorldMap from 'components/common/WorldMap';
 import Page from 'components/layout/Page';
 import GridLayout, { GridRow, GridColumn } from 'components/layout/GridLayout';
 import MenuLayout from 'components/layout/MenuLayout';
@@ -16,6 +16,7 @@ import BrowsersTable from '../metrics/BrowsersTable';
 import OSTable from '../metrics/OSTable';
 import DevicesTable from '../metrics/DevicesTable';
 import CountriesTable from '../metrics/CountriesTable';
+import CitiesTable from '../metrics/CitiesTable';
 import EventsTable from '../metrics/EventsTable';
 import EventsChart from '../metrics/EventsChart';
 import useFetch from 'hooks/useFetch';
@@ -30,6 +31,7 @@ const views = {
   os: OSTable,
   device: DevicesTable,
   country: CountriesTable,
+  city: CitiesTable,
   event: EventsTable,
 };
 
@@ -39,7 +41,8 @@ export default function WebsiteDetails({ websiteId }) {
     headers: { [TOKEN_HEADER]: shareToken?.token },
   });
   const [chartLoaded, setChartLoaded] = useState(false);
-  const [countryData, setCountryData] = useState();
+  const [setCountryData] = useState();
+  const [setCityData] = useState();
   const [eventsData, setEventsData] = useState();
   const {
     resolve,
@@ -81,6 +84,10 @@ export default function WebsiteDetails({ websiteId }) {
     {
       label: <FormattedMessage id="metrics.countries" defaultMessage="Countries" />,
       value: resolve({ view: 'country' }),
+    },
+    {
+      label: 'Cities',
+      value: resolve({ view: 'city' }),
     },
     {
       label: <FormattedMessage id="metrics.events" defaultMessage="Events" />,
@@ -143,11 +150,14 @@ export default function WebsiteDetails({ websiteId }) {
             </GridColumn>
           </GridRow>
           <GridRow>
-            <GridColumn xs={12} md={12} lg={8}>
+            {/* <GridColumn xs={12} md={12} lg={8}>
               <WorldMap data={countryData} />
-            </GridColumn>
+            </GridColumn> */}
             <GridColumn xs={12} md={12} lg={4}>
               <CountriesTable {...tableProps} onDataLoad={setCountryData} />
+            </GridColumn>
+            <GridColumn xs={12} md={12} lg={4}>
+              <CitiesTable {...tableProps} onDataLoad={setCityData} />
             </GridColumn>
           </GridRow>
           <GridRow className={classNames({ [styles.hidden]: !eventsData?.length > 0 })}>

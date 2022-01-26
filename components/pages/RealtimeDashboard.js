@@ -7,7 +7,7 @@ import GridLayout, { GridRow, GridColumn } from 'components/layout/GridLayout';
 import RealtimeChart from 'components/metrics/RealtimeChart';
 import RealtimeLog from 'components/metrics/RealtimeLog';
 import RealtimeHeader from 'components/metrics/RealtimeHeader';
-import WorldMap from 'components/common/WorldMap';
+// import WorldMap from 'components/common/WorldMap';
 import DataTable from 'components/metrics/DataTable';
 import RealtimeViews from 'components/metrics/RealtimeViews';
 import useFetch from 'hooks/useFetch';
@@ -69,7 +69,6 @@ export default function RealtimeDashboard() {
           .reduce((arr, { country }) => {
             if (country) {
               const row = arr.find(({ x }) => x === country);
-
               if (!row) {
                 arr.push({ x: country, y: 1 });
               } else {
@@ -83,6 +82,29 @@ export default function RealtimeDashboard() {
     }
     return [];
   }, [realtimeData?.sessions]);
+
+  const cities = useMemo(() => {
+    if (realtimeData?.sessions) {
+      return percentFilter(
+        realtimeData.sessions
+          .reduce((arr, { city }) => {
+            if (city) {
+              const row = arr.find(({ x }) => x === city);
+              if (!row) {
+                arr.push({ x: city, y: 1 });
+              } else {
+                row.y += 1;
+              }
+            }
+            return arr;
+          }, [])
+          .sort(firstBy('y', -1)),
+      );
+    }
+    return [];
+  }, [realtimeData?.sessions]);
+
+  const renderCityName = useCallback(({ x }) => <span className={locale}>{x}</span>);
 
   useEffect(() => {
     if (init && !data) {
@@ -148,9 +170,18 @@ export default function RealtimeDashboard() {
               height={500}
             />
           </GridColumn>
-          <GridColumn xs={12} lg={8}>
-            <WorldMap data={countries} />
+          <GridColumn xs={12} lg={4}>
+            <DataTable
+              title={'Cities'}
+              metric={<FormattedMessage id="metrics.visitors" defaultMessage="Visitors" />}
+              data={cities}
+              renderLabel={renderCityName}
+              height={500}
+            />
           </GridColumn>
+          {/* <GridColumn xs={12} lg={8}>
+            <WorldMap data={countries} />
+          </GridColumn> */}
         </GridRow>
       </GridLayout>
     </Page>
