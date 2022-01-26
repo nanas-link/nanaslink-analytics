@@ -69,6 +69,7 @@
     "formik": "^2.2.9",
     "immer": "^9.0.6",
     "ipaddr.js": "^2.0.1",
+    "ipapi.co": "^0.3.0",
     "is-localhost-ip": "^1.4.0",
     "isbot": "^3.2.2",
     "jose": "2.0.5",
