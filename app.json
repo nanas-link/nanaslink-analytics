@@ -1,26 +1,19 @@
 {
-    "name": "Umami",
-    "description": "Umami is a simple, fast, website analytics alternative to Google Analytics.",
-    "keywords": [
-      "analytics",
-      "charts",
-      "statistics",
-      "web-analytics"
-    ],
-    "website": "https://umami.is",
-    "repository": "https://github.com/mikecao/umami",
-    "addons": [
-      "heroku-postgresql"
-    ],
-    "env": {
-      "HASH_SALT": {
-        "description": "Used to generate unique values for your installation",
-        "required": true,
-        "generator": "secret"
-      }
-    },
-    "scripts": {
-      "postdeploy": "psql $DATABASE_URL -f sql/schema.postgresql.sql"
-    },
-    "success_url": "/"
+  "name": "Nanas Link Analytics",
+  "description": "Nanas Link Analytics merupakan website analytics yang dirancang khusus untuk keperluan tracking pada aplikasi Nanas Link.",
+  "keywords": ["nanas link", "analytics", "statistics", "web-analytics"],
+  "website": "https://analytics.nanas.link",
+  "repository": "https://github.com/nanas-link/nanaslink-analytics",
+  "addons": ["heroku-postgresql"],
+  "env": {
+    "HASH_SALT": {
+      "description": "Used to generate unique values for your installation",
+      "required": true,
+      "generator": "secret"
+    }
+  },
+  "scripts": {
+    "postdeploy": "psql $DATABASE_URL -f sql/schema.postgresql.sql"
+  },
+  "success_url": "/"
 }
